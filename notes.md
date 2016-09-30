@@ -182,6 +182,47 @@ Now we need to build our own views to work with data. These views are the most i
 - Update/Edit
 - Delete
 
-## 1. View and template
+## 1. View in general
+- django View process HttpRequest and return HttpResponse. 
+    - Inputs for View fuction or class: 
+        - request: context provided by middleware
+        - template: 
+        - context: context provided by user, python dict
+    - Ouput: HttpResponse
+        - render(request, template, context)
+        
+```
+from django.shortcuts import render
+
+# Create your views here.
+def home(request):
+    title = 'Homepage of %s'%(request.user)
+    context = {
+        "template_title": title,
+    }
+    return render(request, "home.html", context)
+```        
+
+- Template is written in a certain template language, which can use template variables that can come from context provided in the view function
+- Another source of contex variable for template is from the sources defined in settting. for example, {{user}} {{request.user}} ,not provided in the view function 
+
+
+```
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, "templates"), "/Users/jmitch/desktop/trydjango18/src/abctemplates"],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+```
 
 
