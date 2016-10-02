@@ -26,7 +26,11 @@ SECRET_KEY = 'csqwlmc8s55o($rt6ozh7u+ui9zb-et00w$d90j8$^!nvj41_r'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'bluebirdbioMA@gmail.com'
+EMAIL_HOST_PASSWORD = 'BBBbio@MA'
+EMAIL_PORT = 587 #465
+EMAIL_USE_TLS = True
 
 # Application definition
 

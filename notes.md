@@ -225,4 +225,84 @@ TEMPLATES = [
 ]
 ```
 
+## 2. Form in a our own view ( ususally for Create and Update view)
+- import our form class and create an instance of our ModelForm class by passing request.POST or None
+- add the form instance to the context for rendering in the view
+    - we still need to use the form tag in our view
+    - if method is not specified in the form tag, the default is GET method. the action is where it goes after submit form.
+    ```
+    <form method='POST' action =''> {%csrf_token%}
+    {{ form.as_p }}
+    <input type="submit" value="Sign Up"/>
+    </form>
+    ```
+   - CSRF token is needed if POST method is used for the security reason 
+
+## 3. Regular Form in a View
+- if your don't need to save the user input information into the database, regular form class is enough, instead of modelform.
+- to catch the information sent by the form, e.g. for sending a email, you just need to get the info from cleaned_data.
+
+## 4. Sending email from django
+-  in settings:
+```
+ALLOWED_HOSTS = []
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'bluebirdbioMA@gmail.com'
+EMAIL_HOST_PASSWORD = 'BBBbio@MA'
+EMAIL_PORT = 587 
+EMAIL_USE_TLS = True
+```
+- in the view function:
+ ```
+def contact(request):
+    form = ContactForm(request.POST or None)
+
+    if form.is_valid():
+        form_email = form.cleaned_data.get('email')
+        form_message = form.cleaned_data.get('message')
+        form_full_name = form.cleaned_data.get('full_name')
+        subject = 'Site contact form'
+        from_email = settings.EMAIL_HOST_USER
+        to_email = [from_email,'wenliangz@gmail.com']
+        contact_message = '''
+        %s:%s via %s
+        '''%(form_full_name,form_message,form_email)
+
+        send_mail(subject,
+                  contact_message,
+                  from_email,
+                  to_email,
+                  fail_silently=False
+                  )
+    context = {
+        "form":form
+    }
+    return render(request, 'form.html',context)
+```
+
+# ======== Static files ===============  
+## 1. STATIC_URL and STATIC_ROOT 
+Static files are served at different server. when in production, there are two server: one is django related file server and one is static file server.during development, we are trying to keep them separate. 
+- location of static files during production: STATIC_ROOT. All the static files in the project( from all apps) will be collected to that location by running: python manage.py collectstatic. The settings might be a little different depending on the server, however, this is the place where all files in STATIC_DIRS are going to send to. The folder is better to be seperated outside of django project folder.
+- location of static files during development: STATIC_DIRS. All the static files in this place will be collected into the STATIC_ROOT in production
+- one tip: os.path.dirname(BASE_DIR) will give the one-level up DIR of the BASE_DIR. 
+## 2. MEDIA_URL and MEDIA_ROOT
+ Media are files uploaded by end users. MEDIA_ROOT is the place where all the files uploaded by users are going to be sent to. In production, the folder is also better to be seperated outside of django project folder.
+## 3. Serving Static and Media files
+## 4. Add Bootstrap to django
+
+# ======== About Template and Styling===============  
+- django template tags: Include, inheritance, blocks. Need {% load staticfiles %} template tag loader
+- use third party app, crispy forms, to make forms look better on the template: {% load crispy_forms_tags %} template tag loader
+- Bootstrap Grid System
+- CSS with style blocks in the template
+- use URL names as links in the template
+- Styling page with CSS 
+- logo image in Navbar
+- use Font Awesome, little icon, all in css, not image,
+
+# ======== Django Registration Redux =============== 
+- installation and setup registration redux
+- Authentication and login form in the Navbar
+- promo video and images
 
