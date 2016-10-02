@@ -26,21 +26,37 @@ SECRET_KEY = 'csqwlmc8s55o($rt6ozh7u+ui9zb-et00w$d90j8$^!nvj41_r'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'bluebirdbioMA@gmail.com'
-EMAIL_HOST_PASSWORD = 'BBBbio@MA'
-EMAIL_PORT = 587 #465
+EMAIL_HOST_USER = 'yourgmail@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+''' 
+If using gmail, you will need to
+unlock Captcha to enable Django 
+to  send for you:
+https://accounts.google.com/displayunlockcaptcha
+'''
+
+
 
 # Application definition
 
 INSTALLED_APPS = (
+    #django app
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #third party apps
+    'crispy_forms',
+    'registration',
+    #my apps
     'newsletter',
 )
 
@@ -60,7 +76,7 @@ ROOT_URLCONF = 'trydjango18.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates"), "/Users/jmitch/desktop/trydjango18/src/abctemplates"],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -105,3 +121,29 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "static_root")
+    
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static_in_pro", "our_static"),
+    #os.path.join(BASE_DIR, "static_in_env"),
+    #'/var/www/static/',
+)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "media_root")
+
+
+
+#Crispy FORM TAGs SETTINGS
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+#DJANGO REGISTRATION REDUX SETTINGS
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+
+
+
