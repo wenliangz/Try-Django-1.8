@@ -306,3 +306,6 @@ Static files are served at different server. when in production, there are two s
 - Authentication and login form in the Navbar
 - promo video and images
 
+
+# ====== Prepare for django Settings for different environmnent
+In stead of using one setting.py file, and manipulate the code there. It is more robust to create a setting folder, create different setting files for differnet environment such as local  or production, and import them in the __init__.py file. 
