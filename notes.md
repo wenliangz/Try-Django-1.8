@@ -245,7 +245,6 @@ TEMPLATES = [
 ## 4. Sending email from django
 -  in settings:
 ```
-ALLOWED_HOSTS = []
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'bluebirdbioMA@gmail.com'
 EMAIL_HOST_PASSWORD = 'BBBbio@MA'
@@ -308,4 +307,47 @@ Static files are served at different server. when in production, there are two s
 
 
 # ====== Prepare for django Settings for different environmnent
-In stead of using one setting.py file, and manipulate the code there. It is more robust to create a setting folder, create different setting files for differnet environment such as local  or production, and import them in the __init__.py file. 
+## 1. create a setting python module
+- In stead of using one setting.py file, and manipulate the code there. It is more robust to create a setting folder and \_\_init\_\_.py file as a pythoh module
+- In the setting folder, create different setting files for differnet environment such as local  or production, and import them in the \_\_init\_\_.py file. 
+```
+from .base import *
+try:
+	from .local import *
+except:
+	pass
+	
+try:
+	from .production import *
+except:
+	pass
+
+try:
+	from .imac import *
+except:
+	pass
+
+try:
+	from .macbookpro import *
+except:
+	pass
+```
+
+##2. settings you need to change: 
+- the base directory,BASEDIR, to the folder of one level up. just add another layouer of os.path.dirname()
+- DEBUG and ALLOWED_HOSTS settings. Note that when DEBUG is True or when running tests, host validation is disabled; any host will be accepted.  
+    - in the Base setting(base.py):
+    ```
+    DEBUG = True
+    ALLOWED_HOSTS = []
+    ```
+    - in the local settings(local.py)
+    ```
+    DEBUG = True
+    ALLOWED_HOSTS = ['*']
+    ```    
+    or 
+    ```
+    DEBUG = False
+    ALLOWED_HOSTS = []
+    ```
